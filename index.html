@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ne">
 <head>
@@ -8,6 +7,7 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Arial,sans-serif;
@@ -15,16 +15,25 @@ body{
   color:#222;
   text-align:center;
 }
+
 header{
   background:#d71920;
   color:white;
   padding:22px 10px;
 }
+
 .flag{font-size:38px}
-h1{margin:8px 0;font-size:30px}
+
+h1{
+  margin:8px 0;
+  font-size:30px;
+}
+
 .subtitle{font-size:16px}
 
-.container{padding:22px 15px}
+.container{
+  padding:22px 15px;
+}
 
 .sos{
   width:190px;
@@ -35,5 +44,127 @@ h1{margin:8px 0;font-size:30px}
   color:white;
   font-size:42px;
   font-weight:bold;
-box-shadow:0 5px 20px #aaa;
+  box-shadow:0 5px 20px #aaa;
 }
+
+button{
+  width:90%;
+  max-width:350px;
+  padding:15px;
+  margin:8px;
+  border:0;
+  border-radius:12px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.ambulance{background:#e53935;color:white}
+.police{background:#1565c0;color:white}
+.fire{background:#ef6c00;color:white}
+.location{background:#2e7d32;color:white}
+
+#message{
+  margin:15px;
+  padding:12px;
+  border-radius:10px;
+  background:white;
+  font-size:16px;
+}
+
+footer{
+  margin-top:20px;
+  padding:15px;
+  font-size:14px;
+  color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="flag">🇳🇵</div>
+  <h1>🚑 Parash Rescue</h1>
+  <div class="subtitle">Emergency Rescue App</div>
+</header>
+
+<div class="container">
+
+  <button class="sos" onclick="sosCall()">SOS</button>
+
+  <div id="message">
+    आपतकालमा SOS थिच्नुहोस्
+  </div>
+
+  <button class="ambulance" onclick="callNumber('102')">
+    🚑 Ambulance
+  </button>
+
+  <button class="police" onclick="callNumber('100')">
+    👮 Police
+  </button>
+
+  <button class="fire" onclick="callNumber('101')">
+    🚒 Fire Brigade
+  </button>
+
+  <button class="location" onclick="getLocation()">
+    📍 मेरो Location
+  </button>
+
+</div>
+
+<footer>
+  Created by Parash Sharma ❤️
+</footer>
+
+<script>
+
+function callNumber(number){
+  window.location.href = "tel:" + number;
+}
+
+function sosCall(){
+  document.getElementById("message").innerHTML =
+  "🚨 Emergency SOS सक्रिय भयो!";
+
+  window.location.href = "tel:112";
+}
+
+function getLocation(){
+
+  const message = document.getElementById("message");
+
+  if(!navigator.geolocation){
+    message.innerHTML = "❌ Location उपलब्ध छैन।";
+    return;
+  }
+
+  message.innerHTML = "📍 Location खोजिँदैछ...";
+
+  navigator.geolocation.getCurrentPosition(
+    function(position){
+
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      const map =
+      "https://maps.google.com/?q=" + lat + "," + lon;
+
+      message.innerHTML =
+      "📍 तपाईंको Location:<br>" +
+      "<a href='" + map + "' target='_blank'>" +
+      "Google Maps मा खोल्नुहोस्</a>";
+    },
+
+    function(){
+      message.innerHTML =
+      "❌ Location अनुमति दिनुहोस्।";
+    }
+  );
+}
+
+</script>
+
+</body>
+</html>
